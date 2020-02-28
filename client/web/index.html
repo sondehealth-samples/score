@@ -1,0 +1,136 @@
+<html>
+<head>
+    <script src="./sondehealth.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script>
+           
+
+           
+
+
+            function refreshAccessToken(){
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost:8080/oauth2/token",
+                    dataType: 'json',
+                    success: function(obj){
+                        return obj.access_token
+                    },
+                    error: function(obj){
+                        console.error(obj)
+                    }
+                })
+            }
+
+            function scoreCallBack(obj){
+                let t = document.createElement('li')
+                t.innerText = `Your score is ${obj.score.toFixed(2)} for measure ${obj.name}`
+                document.getElementById('status_list').append(t)
+
+                let s = document.createElement('li')
+                s.innerText = `------------END-----------------------`
+                document.getElementById('status_list').append(s)
+            }
+            
+            function fileUploadCallback(obj){
+                let t = document.createElement('li')
+                t.innerText = `Uploading file on location ${obj.fileLocation}`
+                document.getElementById('status_list').append(t)
+            }
+
+            function ScoreAnalyzingCallback(obj){
+                let t = document.createElement('li')
+                t.innerText = `Analyzing score for uploaded file`
+                document.getElementById('status_list').append(t)
+            }
+
+            function fetchStorageLocationCallback(){
+                let t = document.createElement('li')
+                t.innerText = `Fetching storage location`
+                document.getElementById('status_list').append(t)
+            }
+
+
+            function getToken(){
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost:8080/oauth2/token",
+                    dataType: 'json',
+                    success: function(res_token){
+                        let t = document.createElement('li')
+                        t.innerText = "Creating Subject"
+                        document.getElementById('status_list').append(t)
+                        $.ajax({
+                            type: 'POST',
+                            url: "http://localhost:8080/platform/v1/subjects",
+                            headers:{
+                                'Authorization':res_token.access_token,
+                                'Content-Type':'application/json'
+                            },
+                            dataType: 'json',
+                            data:JSON.stringify({
+                                "yearOfBirth": 1985,
+                                "gender": "male",
+                                "language": "HINDI"
+                            }),
+                            success: function(res_subject){
+                                let t = document.createElement('li')
+                                t.innerText = `Subject Created with Subject ID ${res_subject.subjectIdentifier}`
+                                document.getElementById('status_list').append(t)
+
+                                let s = document.createElement('li')
+                                s.innerText = `-----------------------------------------------`
+                                document.getElementById('status_list').append(s)
+
+                                const sondehealth = new Sondehealth()
+                                sondehealth.setOptions(
+                                    {
+                                        'container':'renderhere',
+                                        'refresh_token_callback':refreshAccessToken,
+                                        'score_callback':scoreCallBack,
+                                        'fileupload_callback':fileUploadCallback,
+                                        'fetch_storage_location_callback':fetchStorageLocationCallback,
+                                        'subject_identifier':res_subject.subjectIdentifier,
+                                        'analyzing_score_callback':ScoreAnalyzingCallback,
+                                        'storage_region':'IN'
+                                    }
+                                )
+                                sondehealth.initAccessToken(res_token.access_token)
+                                sondehealth.renderWidget()
+                            },
+                            error: function(obj){
+
+                            }
+                        })
+                    },
+                    error: function(){
+                        console.log("error")
+                    }
+                })
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                getToken()
+            })
+            
+
+    </script>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="renderhere"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <p class="mb-0" style="font-size: 12px; font-weight: bold;">Status:</p>
+                    <ul style="font-size: 11px; font-weight: bold;" id="status_list">                   
+                    </ul> 
+                </div> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
