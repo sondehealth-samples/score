@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sonde Android Sample</string>
+    <string name="start">Start Activity</string>
+    <string name="say_pa_ta_ka">Say PA-TA-KA</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="stop_recording">Stop Recording</string>
+</resources>
