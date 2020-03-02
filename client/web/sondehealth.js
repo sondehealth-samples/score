@@ -142,6 +142,7 @@ class Sondehealth{
     }
     mediaRecorder = {};
     audio;
+    backendServerURL = 'https://d1d65rrfia4age.cloudfront.net/platform/v1/'
     constructor(){
     }
 
@@ -310,7 +311,7 @@ class Sondehealth{
                 self.options.fetch_storage_location_callback()
                 $.ajax({
                     type: 'POST',
-                    url: "https://d1d65rrfia4age.cloudfront.net/platform/v1/storage/files/",
+                    url: self.backendServerURL+"storage/files/",
                     headers:{
                         'Authorization':self.access_token,
                         'Content-Type':'application/json',
@@ -335,7 +336,7 @@ class Sondehealth{
                                 self.options.analyzing_score_callback()
                                 $.ajax({
                                     type: 'POST',
-                                    url: "https://d1d65rrfia4age.cloudfront.net/platform/v1/inference/scores",
+                                    url: self.backendServerURL+"inference/scores",
                                     headers:{
                                         'Authorization':self.access_token,
                                         'Content-Type':'application/json',
@@ -427,7 +428,7 @@ class Sondehealth{
     getMeasures(){
         $.ajax({
             type: 'GET',
-            url: "https://d1d65rrfia4age.cloudfront.net/platform/v1/measures",
+            url: this.backendServerURL+"measures",
             headers:{
                 'Authorization':this.access_token
             },
