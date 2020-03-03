@@ -134,6 +134,7 @@ class Sondehealth{
     productionServerURL = 'https://d1d65rrfia4age.cloudfront.net/platform/v1/'
     developmentServerURL = 'https://d1d65rrfia4age.cloudfront.net/platform/v1/'
     incoming_options;
+    threshold_time = 6   //Audio will be recorded for this much time in seconds
     constructor(){
     }
 
@@ -238,7 +239,9 @@ class Sondehealth{
                             </div>
                             <div class="col-md-12 mb-2" style="align-self: center;">
                                 <button class="layoutButton wave"  id="start_recording">Start</button>
-                                <button class="layoutButton wave" hidden id="stop_recording">Stop</button>
+                                <div id="stop_recording" hidden class="progress">
+                                    <div id="progress_bar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%"></div>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -284,6 +287,19 @@ class Sondehealth{
                         console.info('Device ready!');
                         document.getElementById('start_recording').hidden = true
                         document.getElementById('stop_recording').hidden = false
+
+                        let sec = 0
+                        let interval = setInterval(function(){
+                            sec++;
+                            document.getElementById('progress_bar').style.width = ((sec/this.threshold_time)*100).toString()+'%'
+                            document.getElementById('progress_bar').innerText = `${sec} Second`
+                            if(sec == this.threshold_time){
+                                wavesurfer.microphone.stop()
+                                this.mediaRecorder.stop()
+                                clearInterval(interval)
+                            }
+                        }.bind(this), 1000)
+
                         this.mediaRecorder = new MediaRecorder(stream);
                         this.mediaRecorder.start();
                         const audioChunks = [];
@@ -329,10 +345,12 @@ class Sondehealth{
                     wavesurfer.microphone.start()
                     document.getElementById('start_recording').hidden = true
                     document.getElementById('stop_recording').hidden = false
-                    document.getElementById('stop_recording').addEventListener("click", function(obj){
-                        wavesurfer.microphone.stop()
-                        this.mediaRecorder.stop()
-                    }.bind(this))
+                    // document.getElementById('stop_recording').addEventListener("click", function(obj){
+                    //     wavesurfer.microphone.stop()
+                    //     this.mediaRecorder.stop()
+                    // }.bind(this))
+                    // document.getElementById('progress_bar').set('aria-valuemax') = this.threshold_time
+                   
 
                 })
         }else{

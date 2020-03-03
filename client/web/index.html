@@ -1,8 +1,8 @@
 <html>
 <head>
+    <meta charset="utf-8"/>
     <script src="./sondehealth.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
     <script>
            
 
@@ -111,7 +111,7 @@
                                         'fetch_storage_location_callback':fetchStorageLocationCallback,  //callback received when fetching file location
                                         'subject_identifier':res_subject.subjectIdentifier,  //to initialize subject identifier
                                         'analyzing_score_callback':ScoreAnalyzingCallback, //callback received when analyzing score
-                                        'country_code':'IN',  //storage region where audio file to be keep, it can be [ IN, US, DE ]
+                                        'country_code':'US',  //storage region where audio file to be keep, it can be [ IN, US, DE ]
                                         'mode':'PROD', //mode can be DEV or PROD 
                                         'access_token':res_token.access_token  //initializing access token to make work API's
                                     }
