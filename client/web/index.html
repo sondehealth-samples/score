@@ -1,8 +1,8 @@
 <html>
 <head>
+    <meta charset="utf-8"/>
     <script src="./sondehealth.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
     <script>
            
 
@@ -31,24 +31,35 @@
                 let s = document.createElement('li')
                 s.innerText = `------------END-----------------------`
                 document.getElementById('status_list').append(s)
+
+                document.getElementById('status_list').scrollBy(0,document.getElementById('status_list').scrollHeight)
             }
             
             function fileUploadCallback(obj){
                 let t = document.createElement('li')
                 t.innerText = `Uploading file on location ${obj.fileLocation}`
                 document.getElementById('status_list').append(t)
+
+                document.getElementById('status_list').scrollBy(0,document.getElementById('status_list').scrollHeight)
+
             }
 
             function ScoreAnalyzingCallback(obj){
                 let t = document.createElement('li')
                 t.innerText = `Analyzing score for uploaded file`
                 document.getElementById('status_list').append(t)
+
+                document.getElementById('status_list').scrollBy(0,document.getElementById('status_list').scrollHeight)
+
             }
 
             function fetchStorageLocationCallback(){
                 let t = document.createElement('li')
                 t.innerText = `Fetching storage location`
                 document.getElementById('status_list').append(t)
+
+                document.getElementById('status_list').scrollBy(0,document.getElementById('status_list').scrollHeight)
+
             }
 
 
@@ -62,6 +73,8 @@
                         t.innerText = "Creating Subject"
                         document.getElementById('status_list').append(t)
                         $.ajax({
+                            //success call from token API, containing access token.
+
                             type: 'POST',
                             url: "http://localhost:8080/platform/v1/subjects",
                             headers:{
@@ -75,6 +88,8 @@
                                 "language": "HINDI"
                             }),
                             success: function(res_subject){
+                                //success callback from subject API, response with newly created subject ID
+                                
                                 let t = document.createElement('li')
                                 t.innerText = `Subject Created with Subject ID ${res_subject.subjectIdentifier}`
                                 document.getElementById('status_list').append(t)
@@ -82,21 +97,26 @@
                                 let s = document.createElement('li')
                                 s.innerText = `-----------------------------------------------`
                                 document.getElementById('status_list').append(s)
-
+                               
+                               
+                                //initializing library sondehealth object
                                 const sondehealth = new Sondehealth()
+                                //initialize options on sondehealth library object
                                 sondehealth.setOptions(
                                     {
-                                        'container':'renderhere',
-                                        'refresh_token_callback':refreshAccessToken,
-                                        'score_callback':scoreCallBack,
-                                        'fileupload_callback':fileUploadCallback,
-                                        'fetch_storage_location_callback':fetchStorageLocationCallback,
-                                        'subject_identifier':res_subject.subjectIdentifier,
-                                        'analyzing_score_callback':ScoreAnalyzingCallback,
-                                        'storage_region':'IN'
+                                        'container':'renderhere',   //id of div where need to render widget
+                                        'refresh_token_callback':refreshAccessToken,  //callback for refreshing token from library
+                                        'score_callback':scoreCallBack,  //callback received with score object, once score is calculated/Analyzed
+                                        'fileupload_callback':fileUploadCallback,  //callback received when a file is uploading
+                                        'fetch_storage_location_callback':fetchStorageLocationCallback,  //callback received when fetching file location
+                                        'subject_identifier':res_subject.subjectIdentifier,  //to initialize subject identifier
+                                        'analyzing_score_callback':ScoreAnalyzingCallback, //callback received when analyzing score
+                                        'country_code':'US',  //storage region where audio file to be keep, it can be [ IN, US, DE ]
+                                        'mode':'PROD', //mode can be DEV or PROD 
+                                        'access_token':res_token.access_token  //initializing access token to make work API's
                                     }
                                 )
-                                sondehealth.initAccessToken(res_token.access_token)
+                                //render widget on element id which is provided in container
                                 sondehealth.renderWidget()
                             },
                             error: function(obj){
@@ -120,13 +140,13 @@
 <body>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mt-1">
                 <div id="renderhere"></div>
             </div>
-            <div class="col-md-6">
-                <div class="card p-3">
+            <div class="col-md-6 mt-1">
+                <div class="card p-3" >
                     <p class="mb-0" style="font-size: 12px; font-weight: bold;">Status:</p>
-                    <ul style="font-size: 11px; font-weight: bold;" id="status_list">                   
+                    <ul style="font-size: 11px; font-weight: bold;overflow-y: auto; min-height: 100px; max-height: 300px;" id="status_list">                   
                     </ul> 
                 </div> 
             </div>

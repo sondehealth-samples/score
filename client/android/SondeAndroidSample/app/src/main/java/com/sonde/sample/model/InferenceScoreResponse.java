@@ -7,21 +7,21 @@ import com.google.gson.annotations.SerializedName;
 public class InferenceScoreResponse {
 
     @SerializedName("measureId")
-    private Long mMeasureId;
+    private String mMeasureId;
     @SerializedName("name")
     private String mName;
     @SerializedName("requestId")
     private String mRequestId;
     @SerializedName("score")
-    private Long mScore;
+    private Double mScore;
     @SerializedName("scoreId")
     private String mScoreId;
 
-    public Long getMeasureId() {
+    public String getMeasureId() {
         return mMeasureId;
     }
 
-    public void setMeasureId(Long measureId) {
+    public void setMeasureId(String measureId) {
         mMeasureId = measureId;
     }
 
@@ -41,11 +41,11 @@ public class InferenceScoreResponse {
         mRequestId = requestId;
     }
 
-    public Long getScore() {
+    public Double getScore() {
         return mScore;
     }
 
-    public void setScore(Long score) {
+    public void setScore(Double score) {
         mScore = score;
     }
 
