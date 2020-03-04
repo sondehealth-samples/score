@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, RECORD_REQUEST_CODE);
             }
         });
-        getAuthToken();
+        getAccessToken(Configuration.ACCESS_TOKEN_URL);
     }
 
     @Override
@@ -74,15 +74,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void getAuthToken() {
+    private void getAccessToken(String apiUrl) {
         mProgressDialog.setMessage("Loading....");
         mProgressDialog.show();
         BackendApi backendApi = RetrofitClientInstance.getRetrofitInstance().create(BackendApi.class);
-        Call<AccessTokenResponse> call = backendApi.getAuthToken(Configuration.ACCESS_TOKEN_URL);
+        Call<AccessTokenResponse> call = backendApi.getAuthToken(apiUrl);
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
-                mProgressDialog.dismiss();
                 Log.i(TAG, "AccessToken Response : " + response.toString());
                 AccessTokenResponse accessTokenResponse = response.body();
                 if (accessTokenResponse != null) {
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     accessToken = accessTokenResponse.getAccessToken();
                     getMeasures();
                 } else {
+                    dismissDialog();
                     Log.e(TAG, "error: code " + response.code());
                 }
             }
@@ -97,9 +97,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
                 Log.e(TAG, "error: " + t);
-                mProgressDialog.dismiss();
+                dismissDialog();
             }
         });
+    }
+
+    private void dismissDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
     private void getMeasures() {
@@ -108,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<MeasureResponse>() {
             @Override
             public void onResponse(Call<MeasureResponse> call, Response<MeasureResponse> response) {
+                dismissDialog();
                 MeasureResponse measureResponse = response.body();
                 if (measureResponse != null) {
                     measureList = measureResponse.getMeasures();
@@ -119,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<MeasureResponse> call, Throwable t) {
                 Log.e(TAG, "error: " + t);
+                dismissDialog();
             }
         });
     }
@@ -150,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<S3PathResponse> call, Throwable t) {
                 Log.e(TAG, "error: " + t);
-                mProgressDialog.dismiss();
+                dismissDialog();
             }
         });
     }
@@ -174,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e(TAG, " : Failed to upload file " + filePath.getName() + " Error: " + t);
+                dismissDialog();
             }
         });
     }
@@ -185,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<InferenceScoreResponse>() {
             @Override
             public void onResponse(Call<InferenceScoreResponse> call, Response<InferenceScoreResponse> response) {
-                mProgressDialog.dismiss();
+                dismissDialog();
                 InferenceScoreResponse scoreResponse = response.body();
                 if (scoreResponse != null) {
                     showScoreDialog(measureName, scoreResponse.getScore());
@@ -198,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<InferenceScoreResponse> call, Throwable t) {
                 Log.e(TAG, " : Failed to get score , Error: " + t);
-                mProgressDialog.dismiss();
+                dismissDialog();
                 Toast.makeText(MainActivity.this, "Could not calculate the score, please try again", Toast.LENGTH_LONG).show();
             }
         });
