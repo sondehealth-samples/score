@@ -143,7 +143,8 @@ public class RecordingActivity extends AppCompatActivity {
                 if (outputStream != null) {
                     outputStream.close();
                 }
-            } catch (IOException ignored) {
+            } catch (IOException e) {
+                Log.e(TAG, "Error : " + e);
             }
 
             try {
@@ -152,7 +153,8 @@ public class RecordingActivity extends AppCompatActivity {
                     mAudioRecord.release();
                     mAudioRecord = null;
                 }
-            } catch (IllegalStateException ignored) {
+            } catch (IllegalStateException e) {
+                Log.e(TAG, "Error : " + e);
             }
 
             // delete PCM file
@@ -178,7 +180,7 @@ public class RecordingActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_RECORD_AUDIO);
             }
         }
-        //If permission is granted, then go ahead recording audio
+        //If permission is granted, then go ahead for recording audio
         else if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED) {
