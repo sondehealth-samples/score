@@ -56,15 +56,15 @@ public class FrontController {
 		return new ResponseEntity<Object>(response.getResponse(), HttpStatus.valueOf(response.getStatusCode()));
 	}
 	
-	@PostMapping("platform/v1/subjects")
-	public ResponseEntity<Object> getOauthToken(@RequestBody SubjectCreationRequest subjectCreationRequest) throws AuthException, JsonProcessingException{
+	@PostMapping("platform/v1/users")
+	public ResponseEntity<Object> createUser(@RequestBody SubjectCreationRequest subjectCreationRequest) throws AuthException, JsonProcessingException{
 		
 		String encodedCreds = utilityService.base64Encode(Constants.clientId, Constants.clientSecret);
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String basicAuthToken = "Basic "+ encodedCreds;
 		OAuthRequestBody body = new OAuthRequestBody();
 	    body.setGrant_type("client_credentials");
-		body.setScope("sonde-platform/subjects.write");
+		body.setScope("sonde-platform/users.write");
 		OAuthResponse oauthResponse = authTokenService.getOauthToken(basicAuthToken, body);
 		OAuthTokenResponse resp = null;
 		String json = gson.toJson(oauthResponse.getResponse());
