@@ -146,7 +146,7 @@ class Sondehealth{
             'score_callback': this.checkObject(obj.score_callback, 'score_callback is required property'),
             'mode': this.checkObject(obj.mode, 'mode is required property'),
             'access_token': this.checkObject(obj.access_token, 'access_token is required property'),
-            'subject_identifier': this.checkObject(obj.subject_identifier, 'subject_identifier is required property'),
+            'user_identifier': this.checkObject(obj.user_identifier, 'user_identifier is required property'),
             'country_code': this.checkObject(obj.country_code, 'country_code is required property'),
             'fileupload_callback': this.checkObject(obj.fileupload_callback, 'fileupload_callback is required property'),
             'fetch_storage_location_callback': this.checkObject(obj.fetch_storage_location_callback, 'fetch_storage_location_callback is required property'),
@@ -172,7 +172,7 @@ class Sondehealth{
             this.options['refresh_token_callback'] = obj.refresh_token_callback
             this.options['score_callback'] = obj.score_callback
             this.options['mode'] = obj.mode
-            this.options['subject_identifier'] = obj.subject_identifier
+            this.options['user_identifier'] = obj.user_identifier
             this.options['country_code'] = obj.country_code
             this.options['fileupload_callback'] = obj.fileupload_callback
             this.options['fetch_storage_location_callback'] = obj.fetch_storage_location_callback
@@ -382,7 +382,7 @@ class Sondehealth{
                 data:JSON.stringify({
                     "fileType": "wav",
                     "countryCode": self.options.country_code,
-                    "subjectIdentifier": self.options.subject_identifier
+                    "userIdentifier": self.options.user_identifier
                   }),
                 success: function(storage_res_file){
                     //send file to pre-sign url
@@ -407,8 +407,8 @@ class Sondehealth{
                                 },
                                 dataType: 'json',
                                 data:JSON.stringify({
-                                    "subjectIdentifier": self.options.subject_identifier,
-                                    "fileLocation": storage_res_file.fileLocation,
+                                    "userIdentifier": self.options.user_identifier,
+                                    "filePath": storage_res_file.filePath,
                                     "measureName": self.selected_measure_values
                                   }),
                                 success: function(final_score){
