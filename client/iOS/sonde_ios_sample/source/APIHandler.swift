@@ -144,7 +144,7 @@ class APIHandler: NSObject, URLSessionDelegate {
      
      */
     
-    func getSignedURL(countryCode: String, fileType: String, subjectIdentifier: String, completion:@escaping (_ storageResponse:[String:AnyObject])->Void, errorCompletion:@escaping (_ error:String)->Void){
+    func getSignedURL(countryCode: String, fileType: String, userIdentifier: String, completion:@escaping (_ storageResponse:[String:AnyObject])->Void, errorCompletion:@escaping (_ error:String)->Void){
         guard let url = URL(string: baseURL + "storage/files") else {
             return
         }
@@ -152,7 +152,7 @@ class APIHandler: NSObject, URLSessionDelegate {
             return
         }
         
-        let body:[String: String] = ["countryCode": countryCode, "fileType": fileType, "subjectIdentifier": subjectIdentifier]
+        let body:[String: String] = ["countryCode": countryCode, "fileType": fileType, "userIdentifier": userIdentifier]
         guard let bodyData = try? JSONSerialization.data(withJSONObject: body, options: []) else{
             return
         }
@@ -195,12 +195,12 @@ class APIHandler: NSObject, URLSessionDelegate {
      */
     
     
-    func getScore(fileLocation:String, measureName:String, completion:@escaping (_ scoreResponse: [String:AnyObject])->Void, errorCompletion:@escaping (_ error:String)->Void){
+    func getScore(filePath:String, measureName:String, userIdentifier:String, completion:@escaping (_ scoreResponse: [String:AnyObject])->Void, errorCompletion:@escaping (_ error:String)->Void){
         guard let url = URL(string: baseURL + "inference/scores") else {
             return
         }
         
-        let body: [String: AnyObject] = ["fileLocation": fileLocation as AnyObject, "measureName" : measureName as AnyObject]
+        let body: [String: AnyObject] = ["filePath": filePath as AnyObject, "measureName" : measureName as AnyObject, "userIdentifier" : userIdentifier as AnyObject]
         guard let bodyData = try? JSONSerialization.data(withJSONObject: body, options: []) else{
             return
         }

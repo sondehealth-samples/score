@@ -56,21 +56,21 @@ class VoiceRecordingViewController: UIViewController {
         self.addActivityIndicator()
         
         //##########Get the signed URL.
-        // Subject identifier should be real identifier
+        // You can get user identifier from your server when user onboarded.
         let measureName = (UIApplication.shared.delegate as! AppDelegate).measures.first ?? "resilience"
-        APIHandler().getSignedURL(countryCode: "IN", fileType: "wav", subjectIdentifier: "427df6a3f", completion: {response in
+        APIHandler().getSignedURL(countryCode: "IN", fileType: "wav", userIdentifier: "427df6a3f", completion: {response in
             
             //###########Upload the file
             let signedURL = response["signedURL"] as! String
-            let fileLocation = response["fileLocation"] as! String
-            print(fileLocation)
+            let filePath = response["filePath"] as! String
+            print(filePath)
             print("Got the signed URL")
             APIHandler().uploadFile(signedURL: signedURL, audioFileURL: self.audioFilePath!, completion: {
                 
                 print("File got uploaded")
                 
                 //##########Get the Score
-                APIHandler().getScore(fileLocation: fileLocation, measureName: measureName, completion: {scoreResponse in
+                APIHandler().getScore(filePath: filePath, measureName: measureName, userIdentifier:"427df6a3f",  completion: {scoreResponse in
                     print("Score is fetched")
                     print(scoreResponse)
                     DispatchQueue.main.async {
