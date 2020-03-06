@@ -56,7 +56,7 @@ public class FrontController {
 		return new ResponseEntity<Object>(response.getResponse(), HttpStatus.valueOf(response.getStatusCode()));
 	}
 	
-	@PostMapping("platform/v1/users")
+	@PostMapping("/platform/v1/users")
 	public ResponseEntity<Object> createUser(@RequestBody SubjectCreationRequest subjectCreationRequest) throws AuthException, JsonProcessingException{
 		
 		String encodedCreds = utilityService.base64Encode(Constants.clientId, Constants.clientSecret);
