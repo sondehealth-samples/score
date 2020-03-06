@@ -4,13 +4,14 @@ import java.util.List;
 
 public class SubjectCreationRequest {
 
-	private Integer yearOfBirth;
+	private String yearOfBirth;
 	private String gender;
 	private List<String> languages;
-	public Integer getYearOfBirth() {
+	
+	public String getYearOfBirth() {
 		return yearOfBirth;
 	}
-	public void setYearOfBirth(Integer yearOfBirth) {
+	public void setYearOfBirth(String yearOfBirth) {
 		this.yearOfBirth = yearOfBirth;
 	}
 	public String getGender() {
