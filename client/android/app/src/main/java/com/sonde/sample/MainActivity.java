@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final int RECORD_REQUEST_CODE = 101;
     private static final String TAG = MainActivity.class.getSimpleName();
-    private String subjectIdentifier = "#######"; // replace with your subject id
+    private String userIdentifier = "#######"; // replace with your subject id
 
     private ProgressDialog mProgressDialog;
     private String accessToken;
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         BackendApi backendApi = RetrofitClientInstance.getRetrofitInstance().create(BackendApi.class);
         String countryCode = "IN";
 
-        Call<S3PathResponse> call = backendApi.getS3FilePath(accessToken, new S3FilePathRequest("wav", countryCode, subjectIdentifier));
+        Call<S3PathResponse> call = backendApi.getS3FilePath(accessToken, new S3FilePathRequest("wav", countryCode, userIdentifier));
         call.enqueue(new Callback<S3PathResponse>() {
             @Override
             public void onResponse(Call<S3PathResponse> call, Response<S3PathResponse> response) {
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Log.i(TAG, " : File Uploaded successfully " + filePath.getName());
-                    requestForMeasureScore(s3PathResponse.getFileLocation(), measureList.get(0).getName(), subjectIdentifier);
+                    requestForMeasureScore(s3PathResponse.getFilePath(), measureList.get(0).getName(), userIdentifier);
                 } else {
                     Log.e(TAG, " : Failed to upload file " + filePath.getName() + " Error code : " + response.code());
                 }
