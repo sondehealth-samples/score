@@ -6,6 +6,8 @@ import com.sonde.sample.model.InferenceScoreResponse;
 import com.sonde.sample.model.MeasureResponse;
 import com.sonde.sample.model.S3FilePathRequest;
 import com.sonde.sample.model.S3PathResponse;
+import com.sonde.sample.model.SignUpRequest;
+import com.sonde.sample.model.SignUpResponse;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -20,6 +22,9 @@ import retrofit2.http.Url;
 public interface BackendApi {
     @POST
     Call<AccessTokenResponse> getAuthToken(@Url String url);
+
+    @POST
+    Call<SignUpResponse> signUpUser(@Url String url, @Body SignUpRequest signUpRequest);
 
     @GET("measures")
     Call<MeasureResponse> getMeasures(@Header("Authorization") String authToken);

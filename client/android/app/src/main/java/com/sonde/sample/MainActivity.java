@@ -20,6 +20,8 @@ import com.sonde.sample.model.Measure;
 import com.sonde.sample.model.MeasureResponse;
 import com.sonde.sample.model.S3FilePathRequest;
 import com.sonde.sample.model.S3PathResponse;
+import com.sonde.sample.model.SignUpRequest;
+import com.sonde.sample.model.SignUpResponse;
 import com.sonde.sample.service.BackendApi;
 import com.sonde.sample.service.RetrofitClientInstance;
 import com.sonde.sample.utils.Configuration;
@@ -37,7 +39,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final int RECORD_REQUEST_CODE = 101;
     private static final String TAG = MainActivity.class.getSimpleName();
-    private String subjectIdentifier = "#######"; // replace with your subject id
+    private String userIdentifier;
 
     private ProgressDialog mProgressDialog;
     private String accessToken;
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void getAccessToken(String apiUrl) {
         mProgressDialog.setMessage("Loading....");
         mProgressDialog.show();
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 if (accessTokenResponse != null) {
                     Log.i(TAG, "AccessToken is : " + accessTokenResponse.getAccessToken());
                     accessToken = accessTokenResponse.getAccessToken();
-                    getMeasures();
+                    registerUser();
                 } else {
                     dismissDialog();
                     Log.e(TAG, "error: code " + response.code());
@@ -102,6 +103,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void registerUser() {
+        mProgressDialog.setMessage("Signing up user....");
+        SignUpRequest signUpRequest = new SignUpRequest(1985, "male", "ENGLISH");
+        BackendApi backendApi = RetrofitClientInstance.getRetrofitInstance().create(BackendApi.class);
+        Call<SignUpResponse> call = backendApi.signUpUser(Configuration.REGISTER_USER, signUpRequest);
+        call.enqueue(new Callback<SignUpResponse>() {
+            @Override
+            public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
+                SignUpResponse signUpResponse = response.body();
+                if (signUpResponse != null) {
+                    userIdentifier = signUpResponse.getUserIdentifier();
+                    getMeasures();
+                } else {
+                    dismissDialog();
+                    Log.e(TAG, "error: code " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignUpResponse> call, Throwable t) {
+                Log.e(TAG, "error: " + t);
+                dismissDialog();
+            }
+        });
+    }
+
     private void dismissDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
@@ -109,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMeasures() {
+        mProgressDialog.setMessage("Fetching measures....");
         BackendApi backendApi = RetrofitClientInstance.getRetrofitInstance().create(BackendApi.class);
         Call<MeasureResponse> call = backendApi.getMeasures(accessToken);
         call.enqueue(new Callback<MeasureResponse>() {
@@ -143,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         BackendApi backendApi = RetrofitClientInstance.getRetrofitInstance().create(BackendApi.class);
         String countryCode = "IN";
 
-        Call<S3PathResponse> call = backendApi.getS3FilePath(accessToken, new S3FilePathRequest("wav", countryCode, subjectIdentifier));
+        Call<S3PathResponse> call = backendApi.getS3FilePath(accessToken, new S3FilePathRequest("wav", countryCode, userIdentifier));
         call.enqueue(new Callback<S3PathResponse>() {
             @Override
             public void onResponse(Call<S3PathResponse> call, Response<S3PathResponse> response) {
@@ -173,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Log.i(TAG, " : File Uploaded successfully " + filePath.getName());
-                    requestForMeasureScore(s3PathResponse.getFileLocation(), measureList.get(0).getName(), subjectIdentifier);
+                    requestForMeasureScore(s3PathResponse.getFilePath(), measureList.get(0).getName(), userIdentifier);
                 } else {
                     Log.e(TAG, " : Failed to upload file " + filePath.getName() + " Error code : " + response.code());
                 }

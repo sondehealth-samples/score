@@ -8,12 +8,12 @@ public class S3FilePathRequest {
     @Expose
     private String countryCode;
     @Expose
-    private String subjectIdentifier;
+    private String userIdentifier;
 
-    public S3FilePathRequest(String fileType, String countryCode, String subjectIdentifier) {
+    public S3FilePathRequest(String fileType, String countryCode, String userIdentifier) {
         this.fileType = fileType;
         this.countryCode = countryCode;
-        this.subjectIdentifier = subjectIdentifier;
+        this.userIdentifier = userIdentifier;
     }
 
     public String getFileType() {
@@ -24,7 +24,7 @@ public class S3FilePathRequest {
         return countryCode;
     }
 
-    public String getSubjectIdentifier() {
-        return subjectIdentifier;
+    public String getUserIdentifier() {
+        return userIdentifier;
     }
 }

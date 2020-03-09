@@ -7,18 +7,18 @@ import com.google.gson.annotations.Expose;
 public class S3PathResponse {
 
     @Expose
-    private String fileLocation;
+    private String filePath;
     @Expose
     private String requestId;
     @Expose
     private String signedURL;
 
-    public String getFileLocation() {
-        return fileLocation;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFileLocation(String fileLocation) {
-        this.fileLocation = fileLocation;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String getRequestId() {
