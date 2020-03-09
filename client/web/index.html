@@ -76,22 +76,22 @@
                             //success call from token API, containing access token.
 
                             type: 'POST',
-                            url: "http://localhost:8080/platform/v1/subjects",
+                            url: "http://localhost:8080/platform/v1/users",
                             headers:{
                                 'Authorization':res_token.access_token,
                                 'Content-Type':'application/json'
                             },
                             dataType: 'json',
                             data:JSON.stringify({
-                                "yearOfBirth": 1985,
+                                "yearOfBirth": '1985',
                                 "gender": "male",
                                 "language": "HINDI"
                             }),
-                            success: function(res_subject){
+                            success: function(res_users){
                                 //success callback from subject API, response with newly created subject ID
                                 
                                 let t = document.createElement('li')
-                                t.innerText = `Subject Created with Subject ID ${res_subject.subjectIdentifier}`
+                                t.innerText = `Subject Created with Subject ID ${res_users.userIdentifier}`
                                 document.getElementById('status_list').append(t)
 
                                 let s = document.createElement('li')
@@ -109,7 +109,7 @@
                                         'score_callback':scoreCallBack,  //callback received with score object, once score is calculated/Analyzed
                                         'fileupload_callback':fileUploadCallback,  //callback received when a file is uploading
                                         'fetch_storage_location_callback':fetchStorageLocationCallback,  //callback received when fetching file location
-                                        'subject_identifier':res_subject.subjectIdentifier,  //to initialize subject identifier
+                                        'user_identifier':res_users.userIdentifier,  //to initialize subject identifier
                                         'analyzing_score_callback':ScoreAnalyzingCallback, //callback received when analyzing score
                                         'country_code':'US',  //storage region where audio file to be keep, it can be [ IN, US, DE ]
                                         'mode':'PROD', //mode can be DEV or PROD 
