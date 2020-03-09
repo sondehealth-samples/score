@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sondehealth</groupId>
 	<artifactId>server</artifactId>
@@ -18,23 +18,31 @@
 		<java.version>1.8</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
-
+	<repositories>
+		<repository>
+			<id>dev-sondehealth2-mvn-central</id>
+			<url>http://dev-sondehealth2-mvn-central.s3-website.ap-south-1.amazonaws.com/release</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>com.mashape.unirest</groupId>
-		    <artifactId>unirest-java</artifactId>
-		    <version>1.4.9</version>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.google.code.gson</groupId>
-		    <artifactId>gson</artifactId>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
 		</dependency>
-	
-
+		<dependency>
+			<groupId>com.sondehealth</groupId>
+			<artifactId>sondehealth-java</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

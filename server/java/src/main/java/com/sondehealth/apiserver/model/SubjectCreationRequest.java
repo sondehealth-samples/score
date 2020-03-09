@@ -1,12 +1,10 @@
-package com.sondehealth.model;
-
-import java.util.List;
+package com.sondehealth.apiserver.model;
 
 public class SubjectCreationRequest {
 
 	private String yearOfBirth;
 	private String gender;
-	private List<String> languages;
+	private String language;
 	
 	public String getYearOfBirth() {
 		return yearOfBirth;
@@ -20,12 +18,11 @@ public class SubjectCreationRequest {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public List<String> getLanguages() {
-		return languages;
+	public String getLanguage() {
+		return language;
 	}
-	public void setLanguages(List<String> languages) {
-		this.languages = languages;
+	public void setLanguage(String language) {
+		this.language = language;
 	}
-	
 	
 }
