@@ -131,8 +131,8 @@ class Sondehealth{
     selected_measure_values;
     options = {}     //these are options initializing from client object while calling setOptions functions
     mediaRecorder = {};  //global object for mediaRecorder object replacement
-    productionServerURL = 'https://d1d65rrfia4age.cloudfront.net/platform/v1/'
-    developmentServerURL = 'https://d1d65rrfia4age.cloudfront.net/platform/v1/'
+    productionServerURL = 'https://d2p2crbjmhql12.cloudfront.net/platform/v1/'
+    developmentServerURL = 'https://d2p2crbjmhql12.cloudfront.net/platform/v1/'
     incoming_options;
     threshold_time = 6   //Audio will be recorded for this much time in seconds
     constructor(){

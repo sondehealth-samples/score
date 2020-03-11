@@ -84,7 +84,7 @@
                             dataType: 'json',
                             data:JSON.stringify({
                                 "yearOfBirth": '1985',
-                                "gender": "male",
+                                "gender": "MALE",
                                 "language": "HINDI"
                             }),
                             success: function(res_users){
@@ -111,7 +111,7 @@
                                         'fetch_storage_location_callback':fetchStorageLocationCallback,  //callback received when fetching file location
                                         'user_identifier':res_users.userIdentifier,  //to initialize subject identifier
                                         'analyzing_score_callback':ScoreAnalyzingCallback, //callback received when analyzing score
-                                        'country_code':'US',  //storage region where audio file to be keep, it can be [ IN, US, DE ]
+                                        'country_code':'IN',  //storage region where audio file to be keep, it can be [ IN, US, DE ]
                                         'mode':'PROD', //mode can be DEV or PROD 
                                         'access_token':res_token.access_token  //initializing access token to make work API's
                                     }
