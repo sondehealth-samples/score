@@ -1,10 +1,10 @@
-package com.sondehealth.services.impl;
+package com.sondehealth.apiserver.services.impl;
 
 import java.util.Base64;
 
 import org.springframework.stereotype.Service;
 
-import com.sondehealth.services.UtilityService;
+import com.sondehealth.apiserver.services.UtilityService;
 
 @Service
 public class UtilityServiceImpl implements UtilityService {

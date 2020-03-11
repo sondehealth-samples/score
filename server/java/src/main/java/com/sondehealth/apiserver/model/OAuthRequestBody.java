@@ -1,4 +1,4 @@
-package com.sondehealth.model;
+package com.sondehealth.apiserver.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

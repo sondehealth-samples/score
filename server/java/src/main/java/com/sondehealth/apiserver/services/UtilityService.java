@@ -1,5 +1,4 @@
-package com.sondehealth.services;
-
+package com.sondehealth.apiserver.services;
 
 public interface UtilityService {
 

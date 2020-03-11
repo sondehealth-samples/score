@@ -1,4 +1,4 @@
-package com.sondehealth.model;
+package com.sondehealth.apiserver.model;
 
 public class SubjectCreationResponse {
 
