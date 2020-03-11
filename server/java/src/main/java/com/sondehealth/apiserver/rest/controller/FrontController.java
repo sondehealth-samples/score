@@ -2,9 +2,7 @@ package com.sondehealth.apiserver.rest.controller;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.security.auth.message.AuthException;
 
@@ -24,7 +22,6 @@ import com.sondehealth.apiserver.model.Constants;
 import com.sondehealth.apiserver.model.OAuthResponseDTO;
 import com.sondehealth.apiserver.model.SubjectCreationRequest;
 import com.sondehealth.apiserver.services.UtilityService;
-import com.sondehealth.apiserver.services.impl.UtilityServiceImpl;
 import com.sondehealth.authentication.AccessToken;
 import com.sondehealth.authentication.SondeCredentialsService;
 import com.sondehealth.exceptions.SDKClientException;
@@ -44,21 +41,11 @@ public class FrontController {
 	@Autowired
 	UtilityService utilityService;
 	
-	/**
-	 * Uncomment below static code and add URL, if provided by Sondehealth if you wish to override the 
-		default location where the SDK points. Replace '<SondePlatformURLTOOverride>' with URL
-	 */
-	/* 
-	static{
-		Map<String, String> envMap = new HashMap<String, String>();
-		envMap.put("SONDEPLATFORM_URL","<SondePlatformURLTOOverride>");
-		UtilityServiceImpl.addEnvProperties(envMap);
-	}*/
 	Logger logger = LoggerFactory.getLogger(FrontController.class);
 	
 	@PostMapping("/oauth2/token")
 	public ResponseEntity<Object> getOauthToken() throws RestClientException, URISyntaxException, AuthException, JsonProcessingException
-	{
+	{	
 		SondeCredentialsService cred = SondeHealthClientProvider.getClientCredentialsAuthProvider(Constants.clientId, Constants.clientSecret);
 		List<Scopes> scopeList = Arrays.asList(Scopes.STORAGE_WRITE, Scopes.SCORES_WRITE, Scopes.MEASURES_READ, Scopes.MEASURES_LIST);
 		AccessToken token = null;
