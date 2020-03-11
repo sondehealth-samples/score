@@ -1,18 +1,18 @@
 package com.sonde.sample.model;
 
 public class SignUpRequest {
-    private Integer yearOfBirth;
+    private String yearOfBirth;
     private String gender;
     private String language;
 
 
-    public SignUpRequest(Integer yearOfBirth, String gender, String language) {
+    public SignUpRequest(String yearOfBirth, String gender, String language) {
         this.yearOfBirth = yearOfBirth;
         this.gender = gender;
         this.language = language;
     }
 
-    public Integer getYearOfBirth() {
+    public String getYearOfBirth() {
         return yearOfBirth;
     }
 

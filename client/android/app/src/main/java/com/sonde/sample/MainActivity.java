@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void registerUser() {
         mProgressDialog.setMessage("Signing up user....");
-        SignUpRequest signUpRequest = new SignUpRequest(1985, "male", "ENGLISH");
+        SignUpRequest signUpRequest = new SignUpRequest("1985", "MALE", "ENGLISH");
         BackendApi backendApi = RetrofitClientInstance.getRetrofitInstance().create(BackendApi.class);
         Call<SignUpResponse> call = backendApi.signUpUser(Configuration.REGISTER_USER, signUpRequest);
         call.enqueue(new Callback<SignUpResponse>() {
