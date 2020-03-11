@@ -10,22 +10,10 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var measures:[String] = [String]()
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        ///Call this API in your code where you want to get the auth token
-        APIHandler().getAuthToken(successCompletion: {_ in
-            APIHandler().getMeasures(successCompletion: {response in
-                self.measures = response
-                print(response)
-            }, errorCompletion: {error in
-                
-            })
-        }, errorCompletion: {_ in})
-        
         return true
     }
 

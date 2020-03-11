@@ -11,8 +11,43 @@ import UIKit
 
 class APIHandler: NSObject, URLSessionDelegate {
     static var accessToken = ""
+    static var userIdentifier = ""
+    static var measures:[String] = [String]()
 
-    var baseURL = "https://d1d65rrfia4age.cloudfront.net/platform/v1/"
+    var baseURL = "https://d2p2crbjmhql12.cloudfront.net/platform/v1/"
+    
+    
+    func createUser(successCompletion:@escaping (_ userIdentifier:String)->Void, errorCompletion:@escaping (_ error:String)->Void){
+        guard let url = URL(string: "http://localhost:8080/platform/v1/users") else {
+            return
+        }
+        
+        let languages = ["languages"]
+        let bodyData = ["yearOfBirth": "1985", "gender" : "MALE", "languages" :languages] as [String : Any]
+        guard let body = try? JSONSerialization.data(withJSONObject: bodyData, options: []) else {
+            return
+        }
+        
+        let session = URLSession(configuration: .default)
+        var request = URLRequest(url: url)
+        request.setValue(APIHandler.accessToken, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = body
+        
+        session.dataTask(with: request,completionHandler: {(data, response, error) in
+            if error != nil{
+                errorCompletion(error!.localizedDescription)
+            }else{
+                if let data = data, let responseJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject], let userIdentifier = responseJSON["userIdentifier"] as? String{
+                    APIHandler.userIdentifier = userIdentifier
+                    successCompletion(userIdentifier)
+                }else{
+                    errorCompletion("Invalid Response")
+                }
+            }
+        }).resume()
+    }
  
     /**
      Call to oauth2/token API to get the access token. Store the token in secure place. This token is required to call the sonde services.
@@ -85,6 +120,7 @@ class APIHandler: NSObject, URLSessionDelegate {
                 if let data = data, let measuresResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject], let measures = measuresResponse["measures"] as? [[String: Any]]{
                     if let measureNames = measures.map({$0["name"]}) as? [String]{
                         successCompletion(measureNames)
+                        print(measureNames)
                     }else{
                         errorCompletion("Invalid Response")
                     }

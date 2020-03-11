@@ -11,7 +11,7 @@ import AVFoundation
 
 /**
  This class has the logic to voice recording and get the score.
-*/
+ */
 
 class VoiceRecordingViewController: UIViewController {
     let recordingSession = AVAudioSession.sharedInstance()
@@ -37,13 +37,13 @@ class VoiceRecordingViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         audioRecorder.stop()
     }
-
+    
     @IBAction func btnStartRecordingClick(_ sender: UIButton) {
         if !isStartted{
             self.startRecording()
             sender.setTitle("Stop Recording", for: .normal)
         }else{
-             self.stopRecording()
+            self.stopRecording()
             sender.setTitle("Start Recording", for: .normal)
         }
         
@@ -55,10 +55,10 @@ class VoiceRecordingViewController: UIViewController {
         audioRecorder.stop()
         self.addActivityIndicator()
         
-        //##########Get the signed URL.
-        // You can get user identifier from your server when user onboarded.
-        let measureName = (UIApplication.shared.delegate as! AppDelegate).measures.first ?? "resilience"
-        APIHandler().getSignedURL(countryCode: "IN", fileType: "wav", userIdentifier: "427df6a3f", completion: {response in
+        guard let measureName = APIHandler.measures.first else{
+            return
+        }
+        APIHandler().getSignedURL(countryCode: "IN", fileType: "wav", userIdentifier: APIHandler.userIdentifier, completion: {response in
             
             //###########Upload the file
             let signedURL = response["signedURL"] as! String
@@ -70,7 +70,7 @@ class VoiceRecordingViewController: UIViewController {
                 print("File got uploaded")
                 
                 //##########Get the Score
-                APIHandler().getScore(filePath: filePath, measureName: measureName, userIdentifier:"427df6a3f",  completion: {scoreResponse in
+                APIHandler().getScore(filePath: filePath, measureName: measureName, userIdentifier:APIHandler.userIdentifier,  completion: {scoreResponse in
                     print("Score is fetched")
                     print(scoreResponse)
                     DispatchQueue.main.async {
@@ -106,7 +106,7 @@ class VoiceRecordingViewController: UIViewController {
     
     /**
      Ask the recording permission from user.
-    */
+     */
     
     func askForAudioRecordingPermission(){
         do{
@@ -121,7 +121,7 @@ class VoiceRecordingViewController: UIViewController {
     
     /**
      Get the document directory path
-    */
+     */
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -135,7 +135,7 @@ class VoiceRecordingViewController: UIViewController {
     
     /**
      To start the recording it is recomended to use the given settings object.
-    */
+     */
     
     func startRecording() {
         let settings: [String:Any] = [
@@ -146,7 +146,7 @@ class VoiceRecordingViewController: UIViewController {
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
             AVAudioFileTypeKey: kAudioFileWAVEType
         ]
-       
+        
         do{
             audioRecorder = try AVAudioRecorder(url: audioFilePath!, settings: settings)
             audioRecorder.prepareToRecord()
@@ -156,15 +156,20 @@ class VoiceRecordingViewController: UIViewController {
     }
     
     func addActivityIndicator(){
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.startAnimating()
-        activityIndicator.center = self.view.center
-        
-        self.view.addSubview(activityIndicator)
+        DispatchQueue.main.async {
+            self.activityIndicator.hidesWhenStopped = true
+            self.activityIndicator.startAnimating()
+            self.activityIndicator.center = self.view.center
+            self.view.addSubview(self.activityIndicator)
+            self.view.isUserInteractionEnabled = false
+        }
     }
     
     func removeActivityIndicator(){
-        self.activityIndicator.removeFromSuperview()
+        DispatchQueue.main.async {
+            self.activityIndicator.removeFromSuperview()
+            self.view.isUserInteractionEnabled = true
+        }
     }
 }
 
