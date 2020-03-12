@@ -79,7 +79,7 @@ This app demostrates
 
  - Steps to run:
 
-	1. Go to [Web] directory in [Master] branch of score repository.
+	1. Go to score/client/web directory in [Master] branch of score repository.
 	2. Open index.html in chrome.
 	3. You will get log in right side which include user id, file location, and score.
 	4. In left side, you need to choose measures.
