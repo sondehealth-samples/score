@@ -41,19 +41,31 @@ This will start the AppServer on your local machine on the port **8080**. This c
 
 **2. Android**
 **Overview**
+
 This app demostrates
-	1. User signup at sample server
-	2. Fetching of list of assigned measures to users
-	3. Recording of wav file
-	4. Uploading wav to S3 bucket and gettting the score for wav file
+
+1. User signup at sample server
+2. Fetching of list of assigned measures to users
+3. Recording of wav file
+4. Uploading wav to S3 bucket and gettting the score for wav file
 	
 **Configuration**
-	- Open the Configuration.java file and replace the BASE_URL with your provided by Sonde
-	- For ACCESS_TOKEN_URL and REGISTER_USER url you can replace the localhost with your machine's ip address (If you are not able to access with localhost)
+
+- Open the Configuration.java file and replace the BASE_URL with your provided by Sonde
+- For ACCESS_TOKEN_URL and REGISTER_USER url you can replace the localhost with your machine's ip address (If you are not able to access with localhost)
 	
 **Run**
-	1. Clone or download the source code
-	2. Import the android sample (score/client/android) in android studio
-	3. Run the project
-	
+
+1. Clone or download the source code
+2. Import the android sample (score/client/android) in android studio
+3. Run the project
+
+**How to use the sample app**
+
+1. After running the application, click on the "Start Activity" button.
+2. A new screen will open to record the audio. Click on "Start Recording" Button.
+3. Say "Pa-Ta-Ka" for 6 seconds as voice sample.
+4. Click on "Stop Recording", APIs calls are initiaed on click of "Stop Recording".
+5. After few seconds, Your score for measure is shown in dialog.
+
    **3. Web-**
