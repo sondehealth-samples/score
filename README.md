@@ -40,6 +40,7 @@ This will start the AppServer on your local machine on the port **8080**. This c
  5. After few seconds, Your measures score is popped up in app.
 
 **2. Android**
+
 **Overview**
 
 This app demostrates
