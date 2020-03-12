@@ -131,9 +131,8 @@ class Sondehealth{
     selected_measure_values;
     options = {}     //these are options initializing from client object while calling setOptions functions
     mediaRecorder = {};  //global object for mediaRecorder object replacement
-    productionServerURL = 'https://d2p2crbjmhql12.cloudfront.net/platform/v1/'
-    developmentServerURL = 'https://d2p2crbjmhql12.cloudfront.net/platform/v1/'
     incoming_options;
+    serverURL = 'https://api.sondeservices.com/platform/v1/'
     threshold_time = 6   //Audio will be recorded for this much time in seconds
     constructor(){
     }
@@ -144,7 +143,6 @@ class Sondehealth{
             'container':   this.checkObject(obj.container, 'container is required property'),
             'refresh_token_callback':  this.checkObject(obj.refresh_token_callback, 'refresh_token_callback is required property'),
             'score_callback': this.checkObject(obj.score_callback, 'score_callback is required property'),
-            'mode': this.checkObject(obj.mode, 'mode is required property'),
             'access_token': this.checkObject(obj.access_token, 'access_token is required property'),
             'user_identifier': this.checkObject(obj.user_identifier, 'user_identifier is required property'),
             'country_code': this.checkObject(obj.country_code, 'country_code is required property'),
@@ -171,7 +169,6 @@ class Sondehealth{
             this.options['container'] = obj.container
             this.options['refresh_token_callback'] = obj.refresh_token_callback
             this.options['score_callback'] = obj.score_callback
-            this.options['mode'] = obj.mode
             this.options['user_identifier'] = obj.user_identifier
             this.options['country_code'] = obj.country_code
             this.options['fileupload_callback'] = obj.fileupload_callback
@@ -363,17 +360,11 @@ class Sondehealth{
             let self = this;
             document.getElementById('status_text').innerText = "Fetching storage location"
             self.options.fetch_storage_location_callback()
-            let serverURL = ''
-            if(self.options.mode == 'DEV'){
-                serverURL = self.developmentServerURL
-            }
-            if(self.options.mode == 'PROD'){
-                serverURL = self.productionServerURL
-            }
+           
             //call to API to fetch pre-signed url
             $.ajax({
                 type: 'POST',
-                url: serverURL+"storage/files/",
+                url: self.serverURL+"storage/files/",
                 headers:{
                     'Authorization':self.options.access_token,
                     'Content-Type':'application/json',
@@ -400,7 +391,7 @@ class Sondehealth{
                             self.options.analyzing_score_callback()
                             $.ajax({
                                 type: 'POST',
-                                url: serverURL+"inference/scores",
+                                url: self.serverURL+"inference/scores",
                                 headers:{
                                     'Authorization':self.options.access_token,
                                     'Content-Type':'application/json',
@@ -496,20 +487,10 @@ class Sondehealth{
 
         let self = this
         if(Object.keys(this.errorCheckInOptions(this.incoming_options)).length == 0){
-            
-            //serverURL preference
-            let serverURL = ''
-            if(this.options.mode == 'DEV'){
-                serverURL = this.developmentServerURL
-            }
-            if(this.options.mode == 'PROD'){
-                serverURL = this.productionServerURL
-            }
-
             //fetch measures
             $.ajax({
                 type: 'GET',
-                url: serverURL+"measures",
+                url: self.serverURL+"measures",
                 headers:{
                     'Authorization':this.options.access_token
                 },

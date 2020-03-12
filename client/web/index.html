@@ -70,7 +70,7 @@
                     dataType: 'json',
                     success: function(res_token){
                         let t = document.createElement('li')
-                        t.innerText = "Creating Subject"
+                        t.innerText = "Creating User"
                         document.getElementById('status_list').append(t)
                         $.ajax({
                             //success call from token API, containing access token.
@@ -91,7 +91,7 @@
                                 //success callback from subject API, response with newly created subject ID
                                 
                                 let t = document.createElement('li')
-                                t.innerText = `Subject Created with Subject ID ${res_users.userIdentifier}`
+                                t.innerText = `User Created with User ID ${res_users.userIdentifier}`
                                 document.getElementById('status_list').append(t)
 
                                 let s = document.createElement('li')
@@ -112,7 +112,6 @@
                                         'user_identifier':res_users.userIdentifier,  //to initialize subject identifier
                                         'analyzing_score_callback':ScoreAnalyzingCallback, //callback received when analyzing score
                                         'country_code':'IN',  //storage region where audio file to be keep, it can be [ IN, US, DE ]
-                                        'mode':'PROD', //mode can be DEV or PROD 
                                         'access_token':res_token.access_token  //initializing access token to make work API's
                                     }
                                 )
