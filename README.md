@@ -69,4 +69,25 @@ This app demostrates
 4. Click on "Stop Recording", APIs calls are initiaed on click of "Stop Recording".
 5. After few seconds, Your score for measure is shown in dialog.
 
-   **3. Web-**
+
+**3. Web**
+
+ - pre-requisite:
+  
+	1. Backend server should be run on http://localhost:8080.
+	2. Internet should work properly.
+
+ - Steps to run:
+
+	1. Go to [Web] directory in [Master] branch of score repository.
+	2. Open index.html in chrome.
+	3. You will get log in right side which include user id, file location, and score.
+	4. In left side, you need to choose measures.
+	5. Allow permission to record audio in browser.
+	6. Once recording started, Say Banana or Pa-Ta-Ka repeatedly.
+	7. After recording, score will calculate and displayed in log.
+	8. Click on check again for score analysis for same user id otherwise reload the page from browser for  new user.
+
+
+ [Web]: <https://github.com/sondehealth-samples/score/tree/master/client/web>
+ [Master]: <https://github.com/sondehealth-samples/score>
