@@ -40,4 +40,20 @@ This will start the AppServer on your local machine on the port **8080**. This c
  5. After few seconds, Your measures score is popped up in app.
 
 **2. Android**
+**Overview**
+This app demostrates
+	1. User signup at sample server
+	2. Fetching of list of assigned measures to users
+	3. Recording of wav file
+	4. Uploading wav to S3 bucket and gettting the score for wav file
+	
+**Configuration**
+	- Open the Configuration.java file and replace the BASE_URL with your provided by Sonde
+	- For ACCESS_TOKEN_URL and REGISTER_USER url you can replace the localhost with your machine's ip address (If you are not able to access with localhost)
+	
+**Run**
+	1. Clone or download the source code
+	2. Import the android sample (score/client/android) in android studio
+	3. Run the project
+	
    **3. Web-**
