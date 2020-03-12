@@ -32,7 +32,7 @@ import com.sondehealth.model.Gender;
 import com.sondehealth.model.Scopes;
 import com.sondehealth.model.UserCreationRequest;
 import com.sondehealth.model.UserCreationResponse;
-import com.sondehealth.service.SubjectClient;
+import com.sondehealth.service.UserClient;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
@@ -73,8 +73,8 @@ public class FrontController {
 		
 		UserCreationResponse response;
 		try{
-			SubjectClient subjectClient = SondeHealthClientProvider.getSubjectClient(cred);
-			response = subjectClient.createSubject(request);
+			UserClient subjectClient = SondeHealthClientProvider.getUserClient(cred);
+			response = subjectClient.createUser(request);
 		}
 		catch(SondeServiceException | SDKClientException | SDKUnauthorizedException ex){
 			logger.error("Error while generating token");
