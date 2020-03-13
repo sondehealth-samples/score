@@ -19,7 +19,8 @@ This will start the AppServer on your local machine on the port **8080**. This c
 
 # Setting up clients:
 
- **1. iOS How to run iOS Sample:
+ **1. iOS How to run iOS Sample:**
+ 
 	**Prerequisite:**
 	To run the iOS sample, you need a mac OSx 10.14 machine and x code 10.2 or above to open the project.
 
