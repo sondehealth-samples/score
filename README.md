@@ -52,7 +52,7 @@ This app demostrates
 	
 **Configuration**
 
-- Open the Configuration.java file and replace the BASE_URL with your provided by Sonde
+- Open the score/client/android/app/src/main/java/com/sonde/sample/utils/Configuration.java file and replace the BASE_URL with your provided by Sonde
 - For ACCESS_TOKEN_URL and REGISTER_USER url you can replace the localhost with your machine's ip address (If you are not able to access with localhost)
 	
 **Run**
