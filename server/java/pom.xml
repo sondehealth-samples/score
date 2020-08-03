@@ -18,13 +18,14 @@
 		<java.version>1.8</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
+	
 	<repositories>
-		<repository>
-			<id>dev-sondehealth2-mvn-central</id>
-			<url>http://dev-sondehealth2-mvn-central.s3-website.ap-south-1.amazonaws.com/release</url>
-		</repository>
+    		<repository>
+        		<id>sondehealth-mvn-central</id>
+        		<url>http://sondehealth-mvn-central.s3-website.ap-south-1.amazonaws.com/release</url>
+    		</repository>
 	</repositories>
-	<dependencies>
+        <dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
